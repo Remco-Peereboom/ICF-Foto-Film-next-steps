@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foto & Video Team — Overzicht</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #0F6E56;
+    --green-light: #E1F5EE;
+    --green-mid: #1D9E75;
+    --text: #1a1a18;
+    --text-muted: #6b6b65;
+    --text-faint: #9a9a93;
+    --bg: #faf9f6;
+    --bg-card: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  header {
+    padding: 3rem 2rem 2rem;
+    max-width: 760px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+
+  header h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  header p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  .phase {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--green);
+    margin: 2rem 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .phase:first-child { margin-top: 0; }
+  .phase::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .card:hover { border-color: var(--border-strong); }
+  .card.open { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(29,158,117,0.07); }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--green-light);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .card.open .num { background: var(--green); color: #fff; }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 500;
+    flex: 1;
+    line-height: 1.3;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--bg);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .arrow {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--text-faint);
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .25s, background .2s;
+    flex-shrink: 0;
+  }
+  .card.open .arrow { transform: rotate(90deg); background: var(--green-light); color: var(--green); }
+
+  .card-body {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+
+  .block { margin-bottom: 14px; }
+  .block:last-child { margin-bottom: 0; }
+
+  .block-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--green);
+    margin-bottom: 5px;
+  }
+
+  .block-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .quote {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+    border-left: 2px solid var(--green-mid);
+    padding-left: 14px;
+    margin: 12px 0;
+  }
+
+  .hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+  .inset {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 13px;
+    border: 1px solid var(--border);
+  }
+
+  .inset-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+
+  .inset-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  .inset-text b { font-weight: 500; color: var(--text); }
+
+  .tags-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .tag-green {
+    font-size: 11px; padding: 3px 9px; border-radius: 20px;
+    background: var(--green-light); color: var(--green);
+  }
+
+  .action-btn {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: var(--green-light);
+    color: var(--green);
+    border: none;
+    cursor: pointer;
+    transition: background .15s;
+    text-decoration: none;
+  }
+  .action-btn:hover { background: #c5ede0; }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px;
+    color: var(--text-faint);
+    border-top: 1px solid var(--border);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 2rem 1.25rem 1.5rem; }
+    main { padding: 1.5rem 1.25rem 3rem; }
+    header h1 { font-size: 1.5rem; }
+    .tag { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Interne voorbereiding — DC gesprek</div>
+  <h1>Foto & Video Team<br>opzetten in de kerk</h1>
+  <p>Een stappenplan van intern draagvlak tot werkende aanloopstructuur. Klik een stap open voor de pitch, de verdieping en concrete vervolgacties.</p>
+</header>
+
+<main>
+
+  <div class="phase">Stap 1 — Intern draagvlak</div>
+
+  <div class="card" id="c1">
+    <div class="card-head" onclick="toggle('c1')">
+      <div class="num">1</div>
+      <div class="card-title">DC-leider overtuigen van de noodzaak</div>
+      <span class="tag">Intern gesprek</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="card-body">
+      <div class="block">
+        <div class="block-label">Korte pitch</div>
+        <div class="block-text">We vragen professionele output zonder professionele randvoorwaarden. De druk is hoog, de middelen zijn krap, de afstemming ontbreekt. Dat is geen duurzame combinatie.</div>
+      </div>
+      <div class="quote">"We willen geen excuses voor matige beelden meer. Dan moeten we ook de randvoorwaarden willen regelen."</div>
+      <div class="hr"></div>
+      <div class="inset">
+        <div class="inset-label">Als de pitch positief ontvangen wordt</div>
+        <div class="inset-text">Maak de kosten van de huidige situatie concreet: wat ging er bij de laatste musical mis, welke beelden ontbraken? Dat is geen aanklacht — dat is bewijs. Noem dat mensen zoals Robin nu niet benut worden. Benadruk: jij neemt de coördinerende rol op je, de DC-leider hoeft het niet te lossen.</div>
+        <div class="tags-row">
+          <span class="tag-green">Kosten van status quo</span>
+          <span class="tag-green">Concrete voorbeelden</span>
+          <span class="tag-green">Jij draagt de last</span>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="block">
+        <div class="block-label">Probleemanalyse</div>
+        <div class="inset">
+          <div class="inset-text">
+            Het foto- en videoteam wordt op de avond zelf ingezet — zonder briefing, zonder shotlist, zonder context over het stuk. Wensen voor de aftermovie komen binnen vlak voor of tijdens de shoot.<br><br>
+            <b>Concreet voorbeeld:</b> Bij de laatste musical was er een extra cameraman aanwezig voor de livestream. Goede positie, goede beelden — bruikbaar voor de aftermovie. Maar omdat niemand dit vooraf wist, zijn die beelden niet gebruikt. Een gemiste kans die met één kort gesprek vooraf voorkomen had kunnen worden.<br><br>
+            Er zijn mensen beschikbaar — zoals Robin — met ervaring in filmen en monteren, die nu niet betrokken worden. Geen eigen leider, geen eigen doelen, geen eigen werkwijze.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase">Stap 2 — Structuur bouwen</div>
+
+  <div class="card" id="c2">
+    <div class="card-head" onclick="toggle('c2')">
+      <div class="num">2</div>
+      <div class="card-title">Foto/video als apart team neerzetten</div>
+      <span class="tag">Structuur</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="card-body">
+      <div class="block">
+        <div class="block-label">Korte pitch</div>
+        <div class="block-text">Fotografie en video vragen een eigen ritme, eigen doelen en eigen leiderschap. Zolang het ingepakt zit bij DC, krijgt het nooit de ruimte om te groeien.</div>
+      </div>
+      <div class="quote">"Een apart team betekent niet dat we verder van elkaar af staan. Het betekent dat we allebei duidelijker weten wat we doen."</div>
+      <div class="hr"></div>
+      <div class="inset">
+        <div class="inset-label">Teamdefinitie</div>
+        <div class="inset-text">
+          <b>Wat het team doet:</b> beelden maken van diensten en specials, shotlist bepalen bij musicals, aftermovie en teaser produceren, beeldarchief beheren.<br><br>
+          <b>Rollen:</b> Teamleider · Fotograaf(en) · Videograaf(en) · Editor / monteur<br><br>
+          <b>Overlap met DC:</b> DC bepaalt de output-doelen. Foto/video bepaalt hoe ze die in beeld brengen. DC publiceert. Foto/video levert aan. Geen van beide stuurt op elkaars terrein.<br><br>
+          <b>Over de overlap in mensen:</b> In het begin werken dezelfde mensen in beide teams — dat is realistisch. Zolang de verantwoordelijkheden helder zijn, hoeft dat geen probleem te zijn.
+        </div>
+        <div class="tags-row">
+          <span class="tag-green">Teamleider aanwijzen</span>
+          <span class="tag-green">Robin betrekken</span>
+          <span class="tag-green">Overlap benoemen</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="c3">
+    <div class="card-head" onclick="toggle('c3')">
+      <div class="num">3</div>
+      <div class="card-title">Visie opstellen met het nieuwe team</div>
+      <span class="tag">Richting</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="card-body">
+      <div class="block">
+        <div class="block-label">Korte pitch</div>
+        <div class="block-text">We hebben mensen die kunnen fotograferen en filmen — maar geen antwoord op waar we over twee jaar willen staan. Zonder richting groeien we niet; we rollen van special naar special.</div>
+      </div>
+      <div class="quote">"Een visie is geen luxe. Het is het antwoord op de vraag waarom we dit doen."</div>
+      <div class="hr"></div>
+      <div class="inset">
+        <div class="inset-label">Als de pitch positief ontvangen wordt</div>
+        <div class="inset-text">Organiseer een visiesessie met iedereen die nu actief is — inclusief Robin. Drie vragen: welke beelden maken ons trots, welke missen we altijd, wie willen we zijn over twee jaar? Werk dat uit naar drie doelen voor het komende jaar. Maak het één A4. Geen boekwerk.</div>
+        <div class="tags-row">
+          <span class="tag-green">Visiesessie organiseren</span>
+          <span class="tag-green">3 doelen op 1 A4</span>
+          <span class="tag-green">Robin erbij</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase">Stap 3 — Bruggen slaan</div>
+
+  <div class="card" id="c4">
+    <div class="card-head" onclick="toggle('c4')">
+      <div class="num">4</div>
+      <div class="card-title">DC-leider: vroege samenwerking met theater</div>
+      <span class="tag">Intern gesprek</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="card-body">
+      <div class="block">
+        <div class="block-label">Korte pitch</div>
+        <div class="block-text">De keuzes die bepalen of je goede beelden maakt, liggen al weken voor de voorstelling. Wie staat waar op het podium. Welk moment de climax is. Als we dat weten, kunnen we erop voorbereiden.</div>
+      </div>
+      <div class="quote">"Een ninja door de zaal sturen werkt alleen als de ninja weet wat er gaat gebeuren."</div>
+      <div class="hr"></div>
+      <div class="inset">
+        <div class="inset-label">Als de pitch positief ontvangen wordt</div>
+        <div class="inset-text">Stel voor: één gezamenlijk moment, zes tot acht weken voor de productie. Een briefing van een uur met theater en foto/video samen. Drie vragen: wat is het verhaal van dit stuk, wat zijn de drie momenten die we absoluut op beeld moeten hebben, zijn er technische details die relevant zijn? Output: een shotlist die iedereen heeft gezien voor de dag zelf.</div>
+        <div class="tags-row">
+          <span class="tag-green">Gezamenlijke briefing</span>
+          <span class="tag-green">Shotlist als output</span>
+          <span class="tag-green">6–8 weken voor première</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="c5">
+    <div class="card-head" onclick="toggle('c5')">
+      <div class="num">5</div>
+      <div class="card-title">Theaterteam overtuigen van vroege betrokkenheid</div>
+      <span class="tag">Extern gesprek</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="card-body">
+      <div class="block">
+        <div class="block-label">Korte pitch</div>
+        <div class="block-text">Jullie werken maanden aan een voorstelling. Wij hebben twee uur om dat te vangen. Hoe beter wij begrijpen wat jullie gebouwd hebben, hoe beter we kunnen laten zien wat jullie gemaakt hebben.</div>
+      </div>
+      <div class="quote">"We willen jullie werk recht doen. Daarvoor moeten we het begrijpen."</div>
+      <div class="hr"></div>
+      <div class="inset">
+        <div class="inset-label">Als de pitch positief ontvangen wordt</div>
+        <div class="inset-text">Begin klein. Vraag niet om toegang tot alle repetities — vraag om één uur met de regisseur. Drie vragen: wat is de emotionele kern van dit stuk, welke scènes zijn de hoogtepunten, zijn er technische dingen die ons werk raken? Output: een shotlist die zij goedkeuren. Zo voelt het als samenwerking, niet als inmenging.</div>
+        <div class="tags-row">
+          <span class="tag-green">Klein beginnen</span>
+          <span class="tag-green">Regisseur centraal</span>
+          <span class="tag-green">Shotlist samen goedkeuren</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase">Stap 4 — Werkwijze verankeren</div>
+
+  <div class="card" id="c6">
+    <div class="card-head" onclick="toggle('c6')">
+      <div class="num">6</div>
+      <div class="card-title">Vaste aanloopstructuur voor specials invoeren</div>
+      <span class="tag">Werkwijze</span>
+      <span class="arrow">›</span>
+    </div>
+    <div class="card-body">
+      <div class="block">
+        <div class="block-label">Korte pitch</div>
+        <div class="block-text">Elke special voelt nu als de eerste keer. Wensen komen laat. De aftermovie wordt gemonteerd vanuit wat er toevallig is, niet vanuit wat we wilden bereiken.</div>
+      </div>
+      <div class="quote">"De aftermovie begint niet op de avond van de voorstelling. Die begint acht weken daarvoor."</div>
+      <div class="hr"></div>
+      <div class="inset">
+        <div class="inset-label">De aanloopstructuur per special</div>
+        <div class="inset-text">
+          <b>8 weken voor</b> — Kickoff met alle betrokken teams. Drie dingen vastleggen: gewenste output (teaser? aftermovie? social serie?), eindverantwoordelijke per output, beschikbare middelen en mensen.<br><br>
+          <b>6 weken voor</b> — Briefing met theaterteam. Shotlist opstellen op basis van het stuk en de visie van de regisseur.<br><br>
+          <b>4 weken voor</b> — Shotlist gereed en besproken met alle betrokkenen. Geen wijzigingen meer na dit punt.<br><br>
+          <b>2 weken voor</b> — Technische check: audio-opname geregeld, camera-opstelling bepaald, extra cameraman ingepland, livestreambeelden afgestemd.<br><br>
+          <b>Dag van de voorstelling</b> — Iedereen staat op positie en weet wat er verwacht wordt.<br><br>
+          <b>Na afloop</b> — Korte evaluatie: wat misten we, wat werkte goed, wat nemen we mee naar de volgende special.
+        </div>
+        <div class="tags-row">
+          <span class="tag-green">Kickoff 8 weken voor</span>
+          <span class="tag-green">Output vooraf vastgelegd</span>
+          <span class="tag-green">Technische check op tijd</span>
+          <span class="tag-green">Evaluatie achteraf</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Intern document · Design & Communicatie team · Niet voor externe verspreiding
+</footer>
+
+<script>
+function toggle(id) {
+  var card = document.getElementById(id);
+  var body = card.querySelector('.card-body');
+  var arrow = card.querySelector('.arrow');
+  var isOpen = card.classList.contains('open');
+  if (isOpen) {
+    card.classList.remove('open');
+    body.style.display = 'none';
+  } else {
+    card.classList.add('open');
+    body.style.display = 'block';
+  }
+}
+</script>
+
+</body>
+</html>
